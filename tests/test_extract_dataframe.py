@@ -15,15 +15,6 @@ columns = ['created_at', 'source', 'original_text', 'clean_text', 'sentiment', '
 
 
 class TestTweetDfExtractor(unittest.TestCase):
-    """
-                A class for unit-testing function in the fix_clean_tweets_dataframe.py file
-
-                Args:
-        -----
-                        unittest.TestCase this allows the new class to inherit
-                        from the unittest module
-        """
-
     def setUp(self) -> pd.DataFrame:
         self.df = TweetDfExtractor(tweet_list[:2])
         # tweet_df = self.df.get_tweet_df()
@@ -37,8 +28,8 @@ class TestTweetDfExtractor(unittest.TestCase):
         self.assertEqual(self.df.find_full_text(), text)
 
     def test_find_sentiments(self):
-        self.assertEqual(self.df.find_sentiments(self.df.find_full_text()), ([0.16666666666666666, 0.13333333333333333, 0.3166666666666667, 0.08611111111111111, 0.27999999999999997], [
-                         0.18888888888888888, 0.45555555555555555, 0.48333333333333334, 0.19722222222222224, 0.6199999999999999]))
+        self.assertEqual(self.df.find_sentiments(self.df.find_full_text()), ([0.16666666666666666, 0.13333333333333333], [
+                         0.18888888888888888, 0.45555555555555555]))
 
     def test_find_created_time(self):
         created_at = ['Fri Apr 22 22:20:18 +0000 2022',
@@ -61,23 +52,23 @@ class TestTweetDfExtractor(unittest.TestCase):
         self.assertEqual(self.df.find_followers_count(), f_count)
 
     def test_find_friends_count(self):
-        friends_count = [351, 92, 1176, 2704, 30819]
+        friends_count = [123, 245]
         self.assertEqual(self.df.find_friends_count(), friends_count)
 
     def test_find_is_sensitive(self):
         self.assertEqual(self.df.is_sensitive(), [
-                         None, None, None, None, None])
+                         None, None])
 
     def test_find_favourite_count(self):
         self.assertEqual(self.df.find_favourite_count(),
-                         [548, 195, 2, 1580, 72])
+                         [548, 195])
 
     def test_find_retweet_count(self):
-        self.assertEqual(self.df.find_retweet_count(), [612, 92, 1, 899, 20])
+        self.assertEqual(self.df.find_retweet_count(), [612, 92])
 
     def test_find_location(self):
         self.assertEqual(self.df.find_location(), [
-                         'Mass', 'Edinburgh, Scotland', None, None, 'United Kingdom'])
+                         'Mass', 'Edinburgh'])
 
 
 if __name__ == '__main__':
