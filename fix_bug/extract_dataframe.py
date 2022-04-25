@@ -90,4 +90,37 @@ class TweetDfExtractor:
             else:
                 favorite_count.append(0)
         return favorite_count
+
+    def find_retweet_count(self)->list:
+        retweet_count = []
+        for tweet in self.tweets_list:
+            if 'retweeted_status' in tweet.keys():
+                retweet_count.append(tweet['retweeted_status']['retweet_count'])
+            else: retweet_count.append(0)
+        return retweet_count
+
+    def find_hashtags(self) -> list:
+        hashtags = []
+        for hs in self.tweets_list:
+            hashtags.append(hs.get('entities', {}).get('hashtags', None))
+        return hashtags
+
+    def find_mentions(self)->list:
+        mentions = []
+        for hs in self.tweets_list:
+            mentions.append( ", ".join(
+                [mention['screen_name'] for mention in hs['entities']['user_mentions']]))
+        return mentions
     
+    def find_lang(self)->list:
+        lang = []
+        for x in self.tweets_list:
+            lang.append(x['user']['lang'])
+        return lang
+
+    def find_location(self)->list:
+        location = []
+        for tweet in self.tweets_list:
+            location.append(tweet['user']['location'])
+        return location
+
