@@ -53,3 +53,9 @@ class TweetDfExtractor:
         for x in self.tweets_list:
             source.append(x['source'])
         return source
+
+    def find_screen_name(self) -> list:
+        screen_name = []
+        for x in self.tweets_list:
+            screen_name.append(x['user']['screen_name'])
+        return screen_name
