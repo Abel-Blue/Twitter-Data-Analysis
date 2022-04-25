@@ -71,3 +71,23 @@ class TweetDfExtractor:
         for x in self.tweets_list:
             friends_count.append(x['user']['friends_count'])
         return friends_count
+
+    def is_sensitive(self) -> list:
+        is_sensitive = []
+        for tweet in self.tweets_list:
+            if 'possibly_sensitive' in tweet.keys():
+                is_sensitive.append(tweet['possibly_sensitive'])
+            else:
+                is_sensitive.append(None)
+        return is_sensitive
+
+    def find_favourite_count(self) -> list:
+        favorite_count = []
+        for tweet in self.tweets_list:
+            if 'retweeted_status' in tweet.keys():
+                favorite_count.append(
+                    tweet['retweeted_status']['favourites_count'])
+            else:
+                favorite_count.append(0)
+        return favorite_count
+    
