@@ -41,3 +41,9 @@ class TweetDfExtractor:
             polarity.append(sentiment.polarity)
             subjectivity.append(sentiment.subjectivity)
         return polarity, subjectivity
+
+    def find_created_time(self) -> list:
+        created_at = []
+        for time in self.tweets_list:
+            created_at.append(time['created_at'])
+        return created_at
