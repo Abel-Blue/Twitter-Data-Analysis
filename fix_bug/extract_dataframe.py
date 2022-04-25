@@ -91,12 +91,14 @@ class TweetDfExtractor:
                 favorite_count.append(0)
         return favorite_count
 
-    def find_retweet_count(self)->list:
+    def find_retweet_count(self) -> list:
         retweet_count = []
         for tweet in self.tweets_list:
             if 'retweeted_status' in tweet.keys():
-                retweet_count.append(tweet['retweeted_status']['retweet_count'])
-            else: retweet_count.append(0)
+                retweet_count.append(
+                    tweet['retweeted_status']['retweet_count'])
+            else:
+                retweet_count.append(0)
         return retweet_count
 
     def find_hashtags(self) -> list:
@@ -105,31 +107,31 @@ class TweetDfExtractor:
             hashtags.append(hs.get('entities', {}).get('hashtags', None))
         return hashtags
 
-    def find_mentions(self)->list:
+    def find_mentions(self) -> list:
         mentions = []
         for hs in self.tweets_list:
-            mentions.append( ", ".join(
+            mentions.append(", ".join(
                 [mention['screen_name'] for mention in hs['entities']['user_mentions']]))
         return mentions
-    
-    def find_lang(self)->list:
+
+    def find_lang(self) -> list:
         lang = []
         for x in self.tweets_list:
             lang.append(x['user']['lang'])
         return lang
 
-    def find_location(self)->list:
+    def find_location(self) -> list:
         location = []
         for tweet in self.tweets_list:
             location.append(tweet['user']['location'])
         return location
 
-    def get_tweet_df(self, save=False)->pd.DataFrame:
+    def get_tweet_df(self, save=False) -> pd.DataFrame:
         """required column to be generated you should be creative and add more features"""
-        
-        columns = ['created_at', 'source', 'original_text','polarity','subjectivity', 'lang', 'favorite_count', 'retweet_count', 
-            'original_author', 'followers_count','friends_count','possibly_sensitive', 'hashtags', 'user_mentions', 'place']
-        
+
+        columns = ['created_at', 'source', 'original_text', 'polarity', 'subjectivity', 'lang', 'favorite_count', 'retweet_count',
+                   'original_author', 'followers_count', 'friends_count', 'possibly_sensitive', 'hashtags', 'user_mentions', 'place']
+
         created_at = self.find_created_time()
         source = self.find_source()
         text = self.find_full_text()
@@ -144,18 +146,20 @@ class TweetDfExtractor:
         hashtags = self.find_hashtags()
         mentions = self.find_mentions()
         location = self.find_location()
-        data = zip(created_at, source, text, polarity, subjectivity, lang, fav_count, retweet_count, screen_name, follower_count, friends_count, sensitivity, hashtags, mentions, location)
+        data = zip(created_at, source, text, polarity, subjectivity, lang, fav_count, retweet_count,
+                   screen_name, follower_count, friends_count, sensitivity, hashtags, mentions, location)
         df = pd.DataFrame(data=data, columns=columns)
-        
+
         if save:
             df.to_csv('processed_tweet_data.csv', index=False)
             print('File Successfully Saved.!!!')
         return df
 
-if __name__ == "__main__":
-    columns = ['created_at', 'source', 'original_text','clean_text', 'sentiment','polarity','subjectivity', 'lang', 'favorite_count', 'retweet_count', 
-    'original_author', 'screen_count', 'followers_count','friends_count','possibly_sensitive', 'hashtags', 'user_mentions', 'place', 'place_coord_boundaries']
 
-    _, tweet_list = read_json("data/")
+if __name__ == "__main__":
+    columns = ['created_at', 'source', 'original_text', 'clean_text', 'sentiment', 'polarity', 'subjectivity', 'lang', 'favorite_count', 'retweet_count',
+               'original_author', 'screen_count', 'followers_count', 'friends_count', 'possibly_sensitive', 'hashtags', 'user_mentions', 'place', 'place_coord_boundaries']
+
+    _, tweet_list = read_json("data/Economic_Twitter_Data.zip")
     tweet = TweetDfExtractor(tweet_list)
     df = tweet.get_tweet_df(True)
