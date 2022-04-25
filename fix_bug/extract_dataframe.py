@@ -13,7 +13,8 @@ def read_json(json_file: str) -> list:
     # https://stackoverflow.com/questions/40824807/reading-zipped-json-files
     # this is the source I found this zip extractor code
 
-    # It says large files detected in github so I hide this unziped json data in .gitignore
+    # It says large files detected in github and I can't push any code's
+    # so I hide this unziped json data in .gitignore
     for tweets in open("data/Economic_Twitter_Data.json", 'r'):
         tweets_data.append(json.loads(tweets))
     return len(tweets_data), tweets_data
