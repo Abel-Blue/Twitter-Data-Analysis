@@ -8,7 +8,7 @@ def read_json(json_file: str) -> list:
     tweets_data = []
     with zipfile.ZipFile("json_file", "r") as z:
         for tweets in z.open(json_file, 'r'):
-            tweets_data.append(json.loads(tweets))
+            tweets_data.append(json.loads(tweets.decode("utf-8")))
         return len(tweets_data), tweets_data
 
 
@@ -23,12 +23,15 @@ class TweetDfExtractor:
         for tweet in self.tweets_list:
             statuses_count.append(tweet['user']['statuses_count'])
         return statuses_count
+        #
 
-
-if __name__ == "__main__":
-    # required column to be generated you should be creative and add more features
-    columns = ['created_at', 'source', 'original_text', 'clean_text', 'sentiment', 'polarity', 'subjectivity', 'lang', 'favorite_count', 'retweet_count',
-               'original_author', 'screen_count', 'followers_count', 'friends_count', 'possibly_sensitive', 'hashtags', 'user_mentions', 'place', 'place_coord_boundaries']
-    _, tweet_list = read_json("data/Economic_Twitter_Data.zip")
-    # tweet = TweetDfExtractor(tweet_list)
-    # tweet_df = tweet.get_tweet_df()
+        def find_full_text(self) -> list:
+            text = []
+            for tweet in self.tweets_list:
+                if 'retweeted_status' in tweet.keys() and 'extended_tweet' in tweet['retweeted_status'].keys():
+                    text.append(tweet['retweeted_status']
+                                ['extended_tweet']['full_text'])
+                else:
+                    text.append('Empty')
+        return text
+        #
