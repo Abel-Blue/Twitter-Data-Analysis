@@ -28,8 +28,8 @@ class TestTweetDfExtractor(unittest.TestCase):
         self.assertEqual(self.df.find_full_text(), text)
 
     def test_find_sentiments(self):
-        self.assertEqual(self.df.find_sentiments(self.df.find_full_text()), ([0.16666666666666666, 0.13333333333333333], [
-                         0.18888888888888888, 0.45555555555555555]))
+        self.assertEqual(self.df.find_sentiments(self.df.find_full_text()), ([-0.1, 0.1], [
+                         -0.1, -0.4]))
 
     def test_find_created_time(self):
         created_at = ['Fri Apr 22 22:20:18 +0000 2022',
@@ -68,7 +68,7 @@ class TestTweetDfExtractor(unittest.TestCase):
 
     def test_find_location(self):
         self.assertEqual(self.df.find_location(), [
-                         'Mass', 'Edinburgh'])
+                         'Edinburgh', 'Mass'])
 
 
 if __name__ == '__main__':
