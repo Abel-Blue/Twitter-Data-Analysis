@@ -16,16 +16,28 @@ class TweetDfExtractor:
 
     def __init__(self, tweets_list):
         self.tweets_list = tweets_list
-        # extracting status count
 
     def find_statuses_count(self) -> list:
         statuses_count = []
         for tweet in self.tweets_list:
             statuses_count.append(tweet['user']['statuses_count'])
         return statuses_count
-        #
 
     def find_full_text(self) -> list:
         text = []
         for tweet in self.tweets_list:
-            text.append(tweet['text'])
+            if 'retweeted_status' in tweet.keys() and 'text' in tweet['retweeted_status'].keys():
+                text.append(tweet['retweeted_status']['text'])
+            else:
+                text.append('Empty')
+        return text
+
+    def find_sentiments(self, text: list) -> list:
+        polarity = []
+        subjectivity = []
+        for tweet in text:
+            blob = TextBlob(tweet)
+            sentiment = blob.sentiment
+            polarity.append(sentiment.polarity)
+            subjectivity.append(sentiment.subjectivity)
+        return polarity, subjectivity
