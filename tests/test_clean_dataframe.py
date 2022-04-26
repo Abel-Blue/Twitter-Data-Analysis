@@ -5,7 +5,8 @@ import pandas as pd
 import unittest
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join('../fix_bug')))
+
+sys.path.append(os.path.abspath(os.path.join('fix_bug')))
 
 from clean_tweets_dataframe import Clean_Tweets
 
