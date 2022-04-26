@@ -1,4 +1,5 @@
 import pandas as pd
+import extract_dataframe as ed
 
 
 class Clean_Tweets:
@@ -73,3 +74,10 @@ class Clean_Tweets:
         df = df.drop(df[df['lang'] != 'en'].index)
 
         return df
+
+
+if __name__ == '__main__':
+    _, tweet_list = ed.read_json("data/Economic_Twitter_Data.zip")
+    tweet = ed.TweetDfExtractor(tweet_list)
+    df = tweet.get_tweet_df(True)
+    ola = Clean_Tweets(df)
