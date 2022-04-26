@@ -1,4 +1,4 @@
-from clean_tweets_dataframe import Clean_Tweets
+
 import os
 import sys
 import unittest
@@ -7,6 +7,7 @@ import pandas.api.types as ptypes
 
 sys.path.append(os.path.abspath(os.path.join('fix_bug/')))
 
+from clean_tweets_dataframe import Clean_Tweets
 
 df = pd.read_csv("data/tweet_data.csv")
 
