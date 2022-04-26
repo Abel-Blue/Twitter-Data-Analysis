@@ -1,5 +1,6 @@
 
 
+from clean_tweets_dataframe import Clean_Tweets
 import pandas.api.types as ptypes
 import pandas as pd
 import unittest
@@ -8,7 +9,6 @@ import os
 
 sys.path.append(os.path.abspath(os.path.join('fix_bug')))
 
-from clean_tweets_dataframe import Clean_Tweets
 
 df = pd.read_csv("data/tweet_data.csv")
 
@@ -40,7 +40,7 @@ class TestCleanTweetsDataframe(unittest.TestCase):
 
     def test_remove_non_english_tweets(self):
         df = self.cleaner.remove_non_english_tweets(self.df)
-        df = df[df['lang'] != 'en']
+        df = df[df['user']['lang'] != 'en']
         self.assertEqual(df.shape[0], 0)
 
 
