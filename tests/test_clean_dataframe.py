@@ -1,11 +1,11 @@
 
-import os
-import sys
-import unittest
-import pandas as pd
-import pandas.api.types as ptypes
 
-sys.path.append(os.path.abspath(os.path.join('fix_bug/')))
+import pandas.api.types as ptypes
+import pandas as pd
+import unittest
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join('../fix_bug')))
 
 from clean_tweets_dataframe import Clean_Tweets
 
@@ -36,10 +36,6 @@ class TestCleanTweetsDataframe(unittest.TestCase):
             ptypes.is_numeric_dtype(df['retweet_count']))
         self.assertTrue(
             ptypes.is_numeric_dtype(df['favorite_count']))
-
-    def test_handle_missing_values(self):
-        df = self.cleaner.handle_missing_values(self.df)
-        self.assertTrue(df.isna().sum().sum() == 0)
 
     def test_remove_non_english_tweets(self):
         df = self.cleaner.remove_non_english_tweets(self.df)
