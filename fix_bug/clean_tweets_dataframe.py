@@ -1,5 +1,6 @@
 import pandas as pd
 import extract_dataframe as ed
+import re
 
 
 class Clean_Tweets:
@@ -11,14 +12,38 @@ class Clean_Tweets:
         self.df = df
         print('Automation in Action...!!!')
 
+    def add_clean_text(self, df: pd.DataFrame) -> pd.DataFrame:
+        """
+        convert original_text values to clean_text values
+        """
+
+        df['clean_text'] = df['original_text'].apply('clean_text')
+
+        return df
+
+    def drop_nullValue_rows(self, df: pd.DataFrame) -> pd.DataFrame:
+        """
+        convert original_text values to clean_text values
+        """
+
+        df.dropna(inplace=True)
+        df.reset_index(drop=True, inplace=True)
+
+        return df
+
     def drop_unwanted_column(self, df: pd.DataFrame) -> pd.DataFrame:
         """
         remove rows that has column names. This error originated from
         the data collection stage.  
         """
-        unwanted_rows = df[df['retweet_count'] == 'retweet_count'].index
+        columns = ['created_at', 'source', 'original_text', 'clean_text', 'polarity', 'subjectivity', 'lang', 'favorite_count', 'retweet_count',
+                   'original_author', 'screen_count', 'followers_count', 'friends_count', 'possibly_sensitive', 'hashtags', 'user_mentions', 'place', 'place_coord_boundaries']
+        unwanted_rows = []
+        for columnName in columns:
+            unwanted_rows += df[df[columnName] == columnName].index
+
         df.drop(unwanted_rows, inplace=True)
-        df = df[df['polarity'] != 'polarity']
+        df.reset_index(drop=True, inplace=True)
 
         return df
 
@@ -27,6 +52,7 @@ class Clean_Tweets:
         drop duplicate rows
         """
         df.drop_duplicates(inplace=True)
+        df.reset_index(drop=True, inplace=True)
 
         return df
 
@@ -34,9 +60,7 @@ class Clean_Tweets:
         """
         convert column to datetime
         """
-
-        df['created_at'] = pd.to_datetime(
-            df['created_at'])
+        df['created_at'] = pd.to_datetime(df['created_at'])
 
         return df
 
@@ -45,24 +69,8 @@ class Clean_Tweets:
         convert columns like polarity, subjectivity, retweet_count
         favorite_count etc to numbers
         """
-        df['polarity'] = pd.to_numeric(df["polarity"])
-        df["subjectivity"] = pd.to_numeric(df["subjectivity"])
-        df["retweet_count"] = pd.to_numeric(df["retweet_count"])
-        df["favorite_count"] = pd.to_numeric(df["favorite_count"])
-#         df["friends_count "] = pd.to_numeric(df["friends_count"])
-
-        return df
-
-    def handle_missing_values(self, df: pd.DataFrame) -> pd.DataFrame:
-        """
-            handle missing values
-        """
-
-        df['possibly_sensitive'] = df['possibly_sensitive'].fillna(0)
-        df['place'] = df['place'].fillna(" ")
-        df['hashtags'] = df['hashtags'].fillna(" ")
-        df['user_mentions'] = df['user_mentions'].fillna(" ")
-        df['retweet_count'] = df['retweet_count'].fillna(0)
+        df[['polarity', 'subjectivity', 'favorite_count', 'retweet_count', 'screen_count', 'followers_count', 'friends_count']] = df[[
+            'polarity', 'subjectivity', 'favorite_count', 'retweet_count', 'screen_count', 'followers_count', 'friends_count']].apply(pd.to_numeric)
 
         return df
 
@@ -71,9 +79,19 @@ class Clean_Tweets:
         remove non english tweets from lang
         """
 
-        df = df.drop(df[df['lang'] != 'en'].index)
+        index_names = df[df['lang'] != "en"].index
+
+        df.drop(index_names, inplace=True)
+        df.reset_index(drop=True, inplace=True)
 
         return df
+
+    def clean_text(original_text: str) -> str:
+        cleaned_text = re.sub('\n', '', original_text)
+        cleaned_text = re.findall(r'[a-zA-Z]+', cleaned_text)
+        cleaned_text = " ".join(cleaned_text)
+        cleaned_text = re.sub(r'http.*', "", cleaned_text)
+        return cleaned_text
 
 
 if __name__ == '__main__':
