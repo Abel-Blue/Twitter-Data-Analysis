@@ -31,13 +31,18 @@ class TweetDfExtractor:
         return statuses_count
 
     def find_full_text(self) -> list:
-        text = []
+        full_text = []
         for tweet in self.tweets_list:
-            if 'retweeted_status' in tweet.keys() and 'text' in tweet['retweeted_status'].keys():
-                text.append(tweet['retweeted_status']['text'])
-            else:
-                text.append('Empty')
-        return text
+            try:
+                full_text.append(
+                    tweet['retweeted_status']['text'])
+            except KeyError:
+                full_text.append("")
+        return full_text
+
+    def find_original_text(self) -> list:
+        original_text = [x['text'] for x in self.tweets_list]
+        return original_text
 
     def find_sentiments(self, text: list) -> list:
         polarity = []
@@ -141,8 +146,9 @@ class TweetDfExtractor:
 
         created_at = self.find_created_time()
         source = self.find_source()
-        text = self.find_full_text()
-        polarity, subjectivity = self.find_sentiments(text)
+        original_text = self.find_original_text()
+        clean_text = self.find_full_text()
+        polarity, subjectivity = self.find_sentiments(clean_text)
         lang = self.find_lang()
         fav_count = self.find_favourite_count()
         retweet_count = self.find_retweet_count()
@@ -153,18 +159,18 @@ class TweetDfExtractor:
         hashtags = self.find_hashtags()
         mentions = self.find_mentions()
         location = self.find_location()
-        data = zip(created_at, source, text, polarity, subjectivity, lang, fav_count, retweet_count,
+        data = zip(created_at, source, original_text, clean_text, polarity, subjectivity, lang, fav_count, retweet_count,
                    screen_name, follower_count, friends_count, sensitivity, hashtags, mentions, location)
         df = pd.DataFrame(data=data, columns=columns)
 
         if save:
-            df.to_csv('data/tweet_data.csv', index=False)
+            df.to_csv('data/economic_data.csv', index=False)
             print('File Successfully Saved.!!!')
         return df
 
 
 if __name__ == "__main__":
-    columns = ['created_at', 'source', 'original_text', 'clean_text', 'sentiment', 'polarity', 'subjectivity', 'lang', 'favorite_count', 'retweet_count',
+    columns = ['created_at', 'source', 'original_text', 'clean_text', 'polarity', 'subjectivity', 'lang', 'favorite_count', 'retweet_count',
                'original_author', 'screen_count', 'followers_count', 'friends_count', 'possibly_sensitive', 'hashtags', 'user_mentions', 'place', 'place_coord_boundaries']
 
     _, tweet_list = read_json("data/Economic_Twitter_Data.zip")
