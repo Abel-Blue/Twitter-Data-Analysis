@@ -166,7 +166,7 @@ class TweetDfExtractor:
         df = pd.DataFrame(data=data, columns=columns)
 
         if save:
-            df.to_csv('data/economic_data.csv', index=False)
+            df.to_csv('data/economic_clean_dataa.csv', index=False)
             print('File Successfully Saved.!!!')
         return df
 
