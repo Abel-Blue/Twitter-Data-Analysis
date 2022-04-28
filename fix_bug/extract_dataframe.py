@@ -70,7 +70,11 @@ class TweetDfExtractor:
     def find_followers_count(self) -> list:
         followers_count = []
         for x in self.tweets_list:
-            followers_count.append(x['user']['followers_count'])
+            if 'retweeted_status' in x.keys():
+                followers_count.append(
+                    x['retweeted_status']['user']['followers_count'])
+            else:
+                followers_count.append(0)
         return followers_count
 
     def find_friends_count(self) -> list:
@@ -91,9 +95,9 @@ class TweetDfExtractor:
     def find_favourite_count(self) -> list:
         favorite_count = []
         for tweet in self.tweets_list:
-            if 'favourites_count' in tweet.keys():
+            if 'retweeted_status' in tweet.keys():
                 favorite_count.append(
-                    tweet['favourites_count'])
+                    tweet['retweeted_status']['favourites_count'])
             else:
                 favorite_count.append(0)
         return favorite_count
@@ -136,7 +140,7 @@ class TweetDfExtractor:
     def get_tweet_df(self, save=False) -> pd.DataFrame:
         """required column to be generated you should be creative and add more features"""
 
-        columns = ['created_at', 'source', 'original_text', 'polarity', 'subjectivity', 'lang', 'favorite_count', 'retweet_count',
+        columns = ['created_at', 'source', 'original_text', 'polarity', 'subjectivity', 'lang', 'statuses_count', 'favorite_count', 'retweet_count',
                    'original_author', 'followers_count', 'friends_count', 'possibly_sensitive', 'hashtags', 'user_mentions', 'place']
 
         created_at = self.find_created_time()
@@ -144,6 +148,7 @@ class TweetDfExtractor:
         text = self.find_full_text()
         polarity, subjectivity = self.find_sentiments(text)
         lang = self.find_lang()
+        statuses_count = self.find_statuses_count()
         fav_count = self.find_favourite_count()
         retweet_count = self.find_retweet_count()
         screen_name = self.find_screen_name()
@@ -153,7 +158,7 @@ class TweetDfExtractor:
         hashtags = self.find_hashtags()
         mentions = self.find_mentions()
         location = self.find_location()
-        data = zip(created_at, source, text, polarity, subjectivity, lang, fav_count, retweet_count,
+        data = zip(created_at, source, text, polarity, subjectivity, lang, statuses_count, fav_count, retweet_count,
                    screen_name, follower_count, friends_count, sensitivity, hashtags, mentions, location)
         df = pd.DataFrame(data=data, columns=columns)
 
@@ -164,9 +169,6 @@ class TweetDfExtractor:
 
 
 if __name__ == "__main__":
-    columns = ['created_at', 'source', 'original_text', 'clean_text', 'sentiment', 'polarity', 'subjectivity', 'lang', 'favorite_count', 'retweet_count',
-               'original_author', 'screen_count', 'followers_count', 'friends_count', 'possibly_sensitive', 'hashtags', 'user_mentions', 'place', 'place_coord_boundaries']
-
     _, tweet_list = read_json("data/Economic_Twitter_Data.zip")
     tweet = TweetDfExtractor(tweet_list)
     df = tweet.get_tweet_df(True)
