@@ -5,17 +5,7 @@ from mysql.connector import Error
 
 
 def DBConnect(dbName=None):
-    """
 
-    Parameters
-    ----------
-    dbName :
-        Default value = None
-
-    Returns
-    -------
-
-    """
     conn = mysql.connect(host='localhost', user='root', password='',
                          database=dbName, buffered=True)
     cur = conn.cursor()
@@ -30,21 +20,7 @@ def emojiDB(dbName: str) -> None:
 
 
 def createDB(dbName: str) -> None:
-    """
 
-    Parameters
-    ----------
-    dbName :
-        str:
-    dbName :
-        str:
-    dbName:str :
-
-
-    Returns
-    -------
-
-    """
     conn, cur = DBConnect()
     cur.execute(f"CREATE DATABASE IF NOT EXISTS {dbName};")
     conn.commit()
@@ -52,21 +28,7 @@ def createDB(dbName: str) -> None:
 
 
 def createTables(dbName: str) -> None:
-    """
 
-    Parameters
-    ----------
-    dbName :
-        str:
-    dbName :
-        str:
-    dbName:str :
-
-
-    Returns
-    -------
-
-    """
     conn, cur = DBConnect(dbName)
     sqlFile = 'schema.sql'
     fd = open(sqlFile, 'r')
@@ -88,21 +50,7 @@ def createTables(dbName: str) -> None:
 
 
 def preprocess_df(df: pd.DataFrame) -> pd.DataFrame:
-    """
 
-    Parameters
-    ----------
-    df :
-        pd.DataFrame:
-    df :
-        pd.DataFrame:
-    df:pd.DataFrame :
-
-
-    Returns
-    -------
-
-    """
     cols_2_drop = ['possibly_sensitive', 'original_text']
     try:
         df = df.drop(columns=cols_2_drop, axis=1)
@@ -114,36 +62,6 @@ def preprocess_df(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def insert_to_tweet_table(dbName: str, df: pd.DataFrame, table_name: str) -> None:
-    """
-
-    Parameters
-    ----------
-    dbName :
-        str:
-    df :
-        pd.DataFrame:
-    table_name :
-        str:
-    dbName :
-        str:
-    df :
-        pd.DataFrame:
-    table_name :
-        str:
-    dbName:str :
-
-    df:pd.DataFrame :
-
-    table_name:str :
-
-
-    Returns
-    -------
-
-    """
-    conn, cur = DBConnect(dbName)
-
-    df = preprocess_df(df)
 
     for _, row in df.iterrows():
         sqlQuery = f"""INSERT INTO {table_name} (created_at, source, clean_text, sentiment, polarity, subjectivity, language,
@@ -166,25 +84,7 @@ def insert_to_tweet_table(dbName: str, df: pd.DataFrame, table_name: str) -> Non
 
 
 def db_execute_fetch(*args, many=False, tablename='', rdf=True, **kwargs) -> pd.DataFrame:
-    """
 
-    Parameters
-    ----------
-    *args :
-
-    many :
-         (Default value = False)
-    tablename :
-         (Default value = '')
-    rdf :
-         (Default value = True)
-    **kwargs :
-
-
-    Returns
-    -------
-
-    """
     connection, cursor1 = DBConnect(**kwargs)
     if many:
         cursor1.executemany(*args)
