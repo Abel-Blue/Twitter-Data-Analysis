@@ -117,7 +117,7 @@ if __name__ == "__main__":
     emojiDB(dbName='tweets')
     createTables(dbName='tweets')
 
-    processed_tweet_df = pd.read_csv('../data/processed_tweet_data.csv')
+    processed_tweet_df = pd.read_csv('../data/economic_clean.csv')
     model_ready_tweet_df = pd.read_csv('../data/model_ready_data.csv')
 
     processed_tweet_df['clean_text'] = model_ready_tweet_df['clean_text']
