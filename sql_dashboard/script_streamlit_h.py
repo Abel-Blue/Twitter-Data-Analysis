@@ -8,7 +8,7 @@ import plotly.express as px
 from add_data import db_execute_fetch
 import matplotlib.pyplot as plt
 import plotly.figure_factory as ff
-from streamlit_helper import *
+from script_streamlit_h import *
 
 
 def header(text):
