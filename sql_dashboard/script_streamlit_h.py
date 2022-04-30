@@ -14,6 +14,7 @@ from streamlit_helper import *
 def header(text):
     st.sidebar.title(text)
     st.title(text)
+# barchart
 
 
 def barChart(data, title, X, Y):
@@ -23,6 +24,8 @@ def barChart(data, title, X, Y):
     msgChart = (alt.Chart(data).mark_bar().encode(alt.X(f"{X}:N", sort=alt.EncodingSortField(field=f"{Y}", op="values",
                 order='ascending')), y=f"{Y}:Q"))
     st.altair_chart(msgChart, use_container_width=True)
+
+# wordcloud
 
 
 def wordCloud():
@@ -55,6 +58,8 @@ def flatten(df, column):
         columns=[column])
 
     return df
+
+# sentiment
 
 
 def text_category(p):
