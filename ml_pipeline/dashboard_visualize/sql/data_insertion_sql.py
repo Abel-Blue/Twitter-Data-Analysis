@@ -6,7 +6,7 @@ from mysql.connector import Error
 
 def DBConnect(dbName=None):
 
-    conn = mysql.connect(host='localhost', user='root', password='',
+    conn = mysql.connect(host='localhost', user='root', password='abel6464',
                          database=dbName, buffered=True)
     cur = conn.cursor()
     return conn, cur
@@ -30,7 +30,7 @@ def createDB(dbName: str) -> None:
 def createTables(dbName: str) -> None:
 
     conn, cur = DBConnect(dbName)
-    sqlFile = 'schema.sql'
+    sqlFile = 'database.sql'
     fd = open(sqlFile, 'r')
     readSqlFile = fd.read()
     fd.close()
@@ -63,8 +63,12 @@ def preprocess_df(df: pd.DataFrame) -> pd.DataFrame:
 
 def insert_to_tweet_table(dbName: str, df: pd.DataFrame, table_name: str) -> None:
 
+    conn, cur = DBConnect(dbName)
+
+    df = preprocess_df(df)
+
     for _, row in df.iterrows():
-        sqlQuery = f"""INSERT INTO {table_name} (created_at, source, clean_text, sentiment, polarity, subjectivity, language,
+        sqlQuery = f"""INSERT INTO {table_name} (created_at, source, clean_text, sentiment, polarity, subjectivity, lang,
                     favorite_count, retweet_count, original_author, followers_count, friends_count,
                     hashtags, user_mentions, place)
              VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"""
@@ -117,8 +121,8 @@ if __name__ == "__main__":
     emojiDB(dbName='tweets')
     createTables(dbName='tweets')
 
-    processed_tweet_df = pd.read_csv('../data/economic_clean.csv')
-    model_ready_tweet_df = pd.read_csv('../data/model_ready_data.csv')
+    processed_tweet_df = pd.read_csv('../../data/economic_clean.csv')
+    model_ready_tweet_df = pd.read_csv('../../data/model_ready_data.csv')
 
     processed_tweet_df['clean_text'] = model_ready_tweet_df['clean_text']
     processed_tweet_df['hashtags'] = processed_tweet_df['hashtags'].dropna("")
@@ -127,4 +131,4 @@ if __name__ == "__main__":
         lambda x: x.lower())
 
     insert_to_tweet_table(dbName='tweets', df=processed_tweet_df,
-                          table_name='TweetInformation')
+                          table_name='tweets')
