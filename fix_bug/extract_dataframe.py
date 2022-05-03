@@ -1,15 +1,14 @@
 import json
 import pandas as pd
 from textblob import TextBlob
-import zipfile
+from zipfile import ZipFile
 
 
 def read_json(json_file: str) -> list:
     tweets_data = []
     # https://stackoverflow.com/questions/40824807/reading-zipped-json-files
-    # this is the source I found this zip extractor code
 
-    with zipfile.ZipFile(json_file, 'r') as zip_ref:
+    with ZipFile(json_file, 'r') as zip_ref:
         zip_ref.extractall("data/")
 
     # It says large files detected in github and I can't push any code's
@@ -30,7 +29,7 @@ class TweetDfExtractor:
             statuses_count.append(tweet['user']['statuses_count'])
         return statuses_count
 
-    def find_full_text(self) -> list:
+    def find_retweet_text(self) -> list:
         full_text = []
         for tweet in self.tweets_list:
             try:
@@ -41,7 +40,9 @@ class TweetDfExtractor:
         return full_text
 
     def find_original_text(self) -> list:
-        original_text = [x['text'] for x in self.tweets_list]
+        original_text = []
+        for x in self.tweets_list:
+            original_text.append(x['text'])
         return original_text
 
     def find_sentiments(self, text: list) -> list:
@@ -54,7 +55,7 @@ class TweetDfExtractor:
             subjectivity.append(sentiment.subjectivity)
         return polarity, subjectivity
 
-    def find_sentiment(self, polarity, subjectivity) -> list:
+    def find_sentiment_polarity(self, polarity, subjectivity) -> list:
         sentiment = []
         for i in range(len(polarity)):
             if polarity[i] > 0:
@@ -138,7 +139,6 @@ class TweetDfExtractor:
                 hashtags.append(None)
             except IndexError:
                 hashtags.append(None)
-
         return hashtags
 
     def find_mentions(self) -> list:
@@ -163,17 +163,17 @@ class TweetDfExtractor:
     def get_tweet_df(self, save=False) -> pd.DataFrame:
         """required column to be generated you should be creative and add more features"""
 
-        columns = ['created_at', 'source', 'original_text', 'clean_text', 'sentiment', 'polarity',
+        columns = ['created_at', 'source', 'original_text', 'retweet_text', 'sentiment', 'polarity',
                    'subjectivity', 'lang', 'statuses_count', 'favorite_count', 'retweet_count',
-                   'original_author', 'followers_count', 'friends_count', 'possibly_sensitive',
-                   'hashtags', 'user_mentions', 'place']
+                   'screen_name', 'followers_count', 'friends_count', 'possibly_sensitive',
+                   'hashtags', 'user_mentions', 'location']
 
         created_at = self.find_created_time()
         source = self.find_source()
         original_text = self.find_original_text()
-        clean_text = self.find_full_text()
-        polarity, subjectivity = self.find_sentiments(clean_text)
-        sentiment = self.find_sentiment(polarity, subjectivity)
+        retweet_text = self.find_retweet_text()
+        polarity, subjectivity = self.find_sentiments(retweet_text)
+        sentiment = self.find_sentiment_polarity(polarity, subjectivity)
         lang = self.find_lang()
         statuses_count = self.find_statuses_count()
         fav_count = self.find_favourite_count()
@@ -185,14 +185,14 @@ class TweetDfExtractor:
         hashtags = self.find_hashtags()
         mentions = self.find_mentions()
         location = self.find_location()
-        data = zip(created_at, source, original_text, clean_text, sentiment, polarity, subjectivity, lang,
+        data = zip(created_at, source, original_text, retweet_text, sentiment, polarity, subjectivity, lang,
                    statuses_count, fav_count, retweet_count, screen_name, follower_count,
                    friends_count, sensitivity, hashtags, mentions, location)
         df = pd.DataFrame(data=data, columns=columns)
 
         if save:
-            df.to_csv('data/economic_clean_dataa.csv', index=False)
-            print('File Successfully Saved.!!!')
+            df.to_csv('data/extracted_economic_data.csv', index=False)
+            print('File Saved !!!')
         return df
 
 
