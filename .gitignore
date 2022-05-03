@@ -1,3 +1,6 @@
 __pycache__/
 data/Economic_Twitter_Data.json
 Pipfile
+test/
+tempCodeRunnerFile.py
+.~lock.cleaned_economic_data.csv#
