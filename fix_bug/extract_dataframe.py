@@ -22,6 +22,7 @@ class TweetDfExtractor:
 
     def __init__(self, tweets_list):
         self.tweets_list = tweets_list
+        print('Data Extraction in progress...')
 
     def find_statuses_count(self) -> list:
         statuses_count = []
@@ -192,7 +193,7 @@ class TweetDfExtractor:
 
         if save:
             df.to_csv('data/extracted_economic_data.csv', index=False)
-            print('File Saved !!!')
+            print('Extracted Data Saved !!!')
         return df
 
 

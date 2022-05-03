@@ -13,7 +13,7 @@ class CleanTweets:
 
     def __init__(self, df: pd.DataFrame):
         self.df = df
-        print('Cleaning in progress !!!')
+        print('Cleaning in progress...')
 
     def drop_unwanted_column(self) -> pd.DataFrame:
         columns = ['created_at', 'source', 'original_text', 'retweet_text', 'sentiment', 'polarity',
@@ -66,6 +66,8 @@ class CleanTweets:
         return emoji_pattern.sub(r'', text)
 
     def clean_retweet_text(self) -> pd.DataFrame:
+        self.df['retweet_text'] = self.df['retweet_text'].str.replace(
+            r'\s*https?://\S+(\s+|$)', ' ').str.strip()
         self.df['retweet_text'] = self.df['retweet_text'].apply(
             lambda x: " ".join(x.lower() for x in x.split()))  # lowercase
         self.df['retweet_text'] = self.df['retweet_text'].str.replace(
@@ -75,6 +77,18 @@ class CleanTweets:
         stop = stopwords.words('english')  # remove stopwords
         self.df['retweet_text'] = self.df['retweet_text'].apply(
             lambda x: " ".join(x for x in x.split() if x not in stop))
+        self.df['retweet_text'] = self.df['retweet_text'].str.findall(
+            r'[a-zA-Z]+')
+        self.df['retweet_text'] = self.df['retweet_text'].str.join(' ')
+        return self.df
+
+    def parse_source(self) -> pd.DataFrame:
+        source = []
+        for i in self.df['source'].tolist():
+            soup = BeautifulSoup(i)
+            loop = soup.a.string
+            source.append(loop)
+        self.df['source'] = source
         return self.df
 
     def clean_data(self, save=False) -> pd.DataFrame:
@@ -85,11 +99,12 @@ class CleanTweets:
         self.df = self.convert_to_numbers()
         self.df = self.remove_non_english_tweets()
         self.df = self.clean_retweet_text()
+        self.df = self.parse_source()
 
         if save:
             self.df.to_csv(
                 'data/cleaned_economic_data.csv', index=False)
-            print('Cleaned data Saved !!!')
+            print('Cleaned Data Saved !!!')
         return self.df
 
 
