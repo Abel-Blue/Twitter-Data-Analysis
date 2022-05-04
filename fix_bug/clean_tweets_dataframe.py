@@ -66,8 +66,6 @@ class CleanTweets:
         return emoji_pattern.sub(r'', text)
 
     def clean_retweet_text(self) -> pd.DataFrame:
-        self.df['retweet_text'] = self.df['retweet_text'].str.replace(
-            r'\s*https?://\S+(\s+|$)', ' ').str.strip()
         self.df['retweet_text'] = self.df['retweet_text'].apply(
             lambda x: " ".join(x.lower() for x in x.split()))  # lowercase
         self.df['retweet_text'] = self.df['retweet_text'].str.replace(
@@ -91,6 +89,25 @@ class CleanTweets:
         self.df['source'] = source
         return self.df
 
+    def fill_nullvalues(self):
+        self.df['possibly_sensitive'] = self.df['possibly_sensitive'].fillna(
+            False)
+        self.df['created_at'] = self.df['created_at'].fillna(" ")
+        self.df['location'] = self.df['location'].fillna(" ")
+        self.df['hashtags'] = self.df['hashtags'].fillna(" ")
+        self.df['user_mentions'] = self.df['user_mentions'].fillna(" ")
+        self.df['retweet_count'] = self.df['retweet_count'].fillna(0)
+        self.df['favorite_count'] = self.df['favorite_count'].fillna(0)
+        self.df['followers_count'] = self.df['followers_count'].fillna(0)
+        self.df['friends_count'] = self.df['friends_count'].fillna(0)
+        self.df['statuses_count'] = self.df['statuses_count'].fillna(0)
+        self.df['screen_name'] = self.df['screen_name'].fillna(" ")
+        self.df['lang'] = self.df['lang'].fillna(" ")
+        self.df['original_text'] = self.df['original_text'].fillna(" ")
+        self.df['retweet_text'] = self.df['retweet_text'].fillna(" ")
+        self.df['source'] = self.df['source'].fillna(" ")
+        return self.df
+
     def clean_data(self, save=False) -> pd.DataFrame:
         self.df = self.drop_unwanted_column()
         self.df = self.drop_nullValue()
@@ -100,6 +117,7 @@ class CleanTweets:
         self.df = self.remove_non_english_tweets()
         self.df = self.clean_retweet_text()
         self.df = self.parse_source()
+        self.df = self.fill_nullvalues()
 
         if save:
             self.df.to_csv(
