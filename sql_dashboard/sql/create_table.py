@@ -69,6 +69,25 @@ def insert_to_tweet_table(dbName: str, df: pd.DataFrame, table_name: str) -> Non
     return
 
 
+def db_execute_fetch(*args, many=False, tablename='', rdf=True, **kwargs) -> pd.DataFrame:
+    connection, cursor1 = DBConnect(**kwargs)
+    if many:
+        cursor1.executemany(*args)
+    else:
+        cursor1.execute(*args)
+    field_names = [i[0] for i in cursor1.description]
+    res = cursor1.fetchall()
+    nrow = cursor1.rowcount
+    if tablename:
+        print(f"{nrow} recrods fetched from {tablename} table")
+    cursor1.close()
+    connection.close()
+    if rdf:
+        return pd.DataFrame(res, columns=field_names)
+    else:
+        return res
+
+
 if __name__ == "__main__":
     createDB(dbName='tweet_db')
     emojiDB(dbName='tweet_db')
