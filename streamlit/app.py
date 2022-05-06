@@ -1,6 +1,6 @@
 import streamlit as st
 from multiapp import MultiApp
-# import your app modules here
+import mysql.connector
 from applications import basic_eda, user_interface, user_interface1, sentiment_model
 
 st.set_page_config(page_title="Twitter Analysis Visualization", layout="wide")
@@ -18,6 +18,34 @@ Also check out his [Medium article](https://medium.com/@u
 \t- Page Folder Based Access
 \t- Presentation changed to SideBar
 """)
+
+# Initialize connection.
+# Uses st.experimental_singleton to only run once.
+
+
+@st.experimental_singleton
+def init_connection():
+    return mysql.connector.connect(**st.secrets["mysql"])
+
+
+conn = init_connection()
+
+# Perform query.
+# Uses st.experimental_memo to only rerun when the query changes or after 10 min.
+
+
+@st.experimental_memo(ttl=600)
+def run_query(query):
+    with conn.cursor() as cur:
+        cur.execute(query)
+        return cur.fetchall()
+
+
+rows = run_query("SELECT * from tweets;")
+
+# Print results.
+for row in rows:
+    st.write(f"{row[0]} has a :{row[1]}:")
 
 # Add all your application here
 app.add_app("Basic EDA", basic_eda.app)
