@@ -1,5 +1,4 @@
 
-import plotly.express as px
 from wordcloud import WordCloud
 import altair as alt
 import streamlit as st

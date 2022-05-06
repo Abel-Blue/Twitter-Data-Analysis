@@ -4,8 +4,6 @@ import mysql.connector as mysql
 from mysql.connector import Error
 import os
 import sys
-sys.path.append(os.path.abspath(os.path.join('data')))
-sys.path.append(os.path.abspath(os.path.join('sql_dashboard/sql')))
 
 
 def DBConnect(dbName=None):
@@ -31,7 +29,7 @@ def createDB(dbName: str) -> None:
 
 def createTables(dbName: str) -> None:
     conn, cur = DBConnect(dbName)
-    sqlFile = 'sql_dashboard/sql/database.sql'
+    sqlFile = 'database.sql'
     fd = open(sqlFile, 'r')
     readSqlFile = fd.read()
     fd.close()
@@ -92,7 +90,7 @@ if __name__ == "__main__":
     createDB(dbName='tweet_db')
     emojiDB(dbName='tweet_db')
     createTables(dbName='tweet_db')
-    df = pd.read_csv('data/cleaned_economic_data.csv')
+    df = pd.read_csv('../data/cleaned_economic_data.csv')
     df.info()
     insert_to_tweet_table(dbName='tweet_db', df=df,
                           table_name='tweets')
