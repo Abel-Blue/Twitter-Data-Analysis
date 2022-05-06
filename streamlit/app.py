@@ -1,7 +1,7 @@
 import streamlit as st
 from multiapp import MultiApp
 # import your app modules here
-from applications import basic_eda, dynamic1, dynamic2, sentiment_model, topic_model
+from applications import basic_eda, user_interface, user_interface1, sentiment_model
 
 st.set_page_config(page_title="Twitter Analysis Visualization", layout="wide")
 
@@ -21,9 +21,8 @@ Also check out his [Medium article](https://medium.com/@u
 
 # Add all your application here
 app.add_app("Basic EDA", basic_eda.app)
-app.add_app("Dynamic page 1", dynamic1.app)
-app.add_app("Dynamic page 2", dynamic2.app)
+app.add_app("Dynamic page 1", user_interface1.app)
+app.add_app("Dynamic page 2", user_interface.app)
 app.add_app("Sentiment analysis", sentiment_model.app)
-app.add_app("Topic Model", topic_model.app)
 # The main app
 app.run()

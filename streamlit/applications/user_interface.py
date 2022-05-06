@@ -7,7 +7,7 @@ import altair as alt
 from wordcloud import WordCloud
 import plotly.express as px
 
-sys.path.append(os.path.abspath(os.path.join('/home/abel-ubuntu/workspace/Twitter-Data-Analysis/sql_dashboard/sql')))
+sys.path.append(os.path.abspath(os.path.join('sql_dashboard')))
 
 from create_table import db_execute_fetch
 
@@ -32,7 +32,7 @@ def wordCloud():
 
         cleanText += " ".join(tokens) + " "
 
-    wc = WordCloud(width=650, height=450, background_color='white',
+    wc = WordCloud(width=650, height=450, background_color='black',
                    min_font_size=5).generate(cleanText)
     st.title("Tweet Text Word Cloud")
     st.image(wc.to_array())

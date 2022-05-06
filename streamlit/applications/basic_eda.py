@@ -11,9 +11,9 @@ def app():
 
     st.header("Data Analysis")
     processed_tweets = pd.read_csv(
-        '/home/abel-ubuntu/workspace/Twitter-Data-Analysis/data/cleaned_economic_data.csv')
+        'data/cleaned_economic_data.csv')
     model_ready_tweets = pd.read_csv(
-        '/home/abel-ubuntu/workspace/Twitter-Data-Analysis/data/model_ready_data.csv')
+        'data/model_ready_data.csv')
     model_ready_tweets.retweet_text = model_ready_tweets.retweet_text.astype(
         str)
 

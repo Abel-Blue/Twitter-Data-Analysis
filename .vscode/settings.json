@@ -1,3 +1,3 @@
 {
-  "python.analysis.extraPaths": ["./fix_bug", "./sql_dashboard/sql"]
+  "python.analysis.extraPaths": ["./fix_bug", "./sql_dashboard", "./data"]
 }

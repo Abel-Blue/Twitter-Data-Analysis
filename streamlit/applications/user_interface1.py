@@ -7,9 +7,10 @@ import numpy as np
 import sys
 import os
 
-sys.path.append(os.path.abspath(os.path.join(
-    '/home/abel-ubuntu/workspace/Twitter-Data-Analysis/sql_dashboard/sql')))
+sys.path.append(os.path.abspath(os.path.join('sql_dashboard')))
+
 from create_table import db_execute_fetch
+
 
 def loadData():
     query = "select * from tweets"
