@@ -7,9 +7,6 @@ import numpy as np
 import sys
 import os
 
-sys.path.append(os.path.abspath(os.path.join('sql_dashboard')))
-
-from create_table import db_execute_fetch
 
 def loadData():
     query = "select * from tweets"

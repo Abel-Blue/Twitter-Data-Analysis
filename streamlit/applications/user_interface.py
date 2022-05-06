@@ -7,9 +7,6 @@ import altair as alt
 from wordcloud import WordCloud
 import plotly.express as px
 
-sys.path.append(os.path.abspath(os.path.join('sql_dashboard')))
-
-from create_table import db_execute_fetch
 
 def loadData():
     query = "select * from tweets"
@@ -25,6 +22,7 @@ def barChart(data, title, X, Y):
     msgChart = (alt.Chart(data).mark_bar().encode(alt.X(f"{X}:N", sort=alt.EncodingSortField(field=f"{Y}", op="values",
                 order='ascending')), y=f"{Y}:Q"))
     st.altair_chart(msgChart, use_container_width=True)
+
 
 def wordCloud():
     df = loadData()
@@ -72,16 +70,17 @@ def langPie():
     with colB2:
         st.write(dfLangCount)
 
+
 def tweetSentiments():
     df = loadData()
     st.title(" Tweets Sentiment Chart")
     st.bar_chart(df.sentiment.value_counts())
 
+
 def app():
     st.title("Data Visualizations")
     wordCloud()
-    with  st.expander("Show More Graphs"):
+    with st.expander("Show More Graphs"):
         stBarChart()
         langPie()
         tweetSentiments()
-        
