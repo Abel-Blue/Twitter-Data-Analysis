@@ -13,5 +13,8 @@ cache:
   - pip
 
 # Command to run tests, e.g. python setup.py test
+# pandas>=1.1.0
+# textblob>=0.15.3
+
 script:
   - python -m unittest tests.test_extract_dataframe
