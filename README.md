@@ -1,7 +1,5 @@
 # Twitter-Data-Analysis
 
-![Linkedin article](https://www.linkedin.com/pulse/twitter-data-mining-nutshell-abel-mitiku/?trackingId=T3zDDLkoRm6zaNmBzZW65w%3D%3D)
-
 ## What Is Twitter Data?
 
 ![phone with logo](https://insidebusiness.ng/wp-content/uploads/twitter-1.jpg)
