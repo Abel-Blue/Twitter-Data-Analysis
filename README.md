@@ -1,7 +1,7 @@
 **Streamlit Data app:** [Tweet Live Visualization](https://share.streamlit.io/abel-blue/twitter-data-analysis/main/streamlit/app.py)
 
 Articles: [Linkedin Article](https://www.linkedin.com/pulse/twitter-data-mining-nutshell-abel-mitiku/?trackingId=WGy4deloToe0PC0iE%2BqH4Q%3D%3D), 
-[Medium Article]()
+[Medium Article](https://medium.com/@Abel-Blue/twitter-data-mining-in-a-nutshell-452e5e7a697d)
 
 ---
 # Twitter-Data-Analysis
