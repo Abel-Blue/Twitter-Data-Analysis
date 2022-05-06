@@ -4,4 +4,4 @@ Pipfile
 test/
 tempCodeRunnerFile.py
 .~lock.cleaned_economic_data.csv#
-streamlit/.streamlit/secrets.toml
+.streamlit/secrets.toml

@@ -19,6 +19,12 @@ Also check out his [Medium article](https://medium.com/@u
 \t- Presentation changed to SideBar
 """)
 
+# Add all your application here
+app.add_app("Basic EDA", basic_eda.app)
+app.add_app("Dynamic page 1", user_interface1.app)
+app.add_app("Dynamic page 2", user_interface.app)
+app.add_app("Sentiment analysis", sentiment_model.app)
+
 # Initialize connection.
 # Uses st.experimental_singleton to only run once.
 
@@ -46,11 +52,6 @@ rows = run_query("SELECT * from tweets;")
 # Print results.
 for row in rows:
     st.write(f"{row[0]} has a :{row[1]}:")
-
-# Add all your application here
-app.add_app("Basic EDA", basic_eda.app)
-app.add_app("Dynamic page 1", user_interface1.app)
-app.add_app("Dynamic page 2", user_interface.app)
-app.add_app("Sentiment analysis", sentiment_model.app)
 # The main app
+
 app.run()
