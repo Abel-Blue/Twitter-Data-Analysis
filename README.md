@@ -1,8 +1,14 @@
-# Twitter-Data-Analysis
+**Streamlit Data app:** [Tweet Live Visualization](https://share.streamlit.io/abel-blue/twitter-data-analysis/main/streamlit/app.py)
 
+Articles: [Linkedin Article](https://www.linkedin.com/pulse/twitter-data-mining-nutshell-abel-mitiku/?trackingId=WGy4deloToe0PC0iE%2BqH4Q%3D%3D), 
+[Medium Article]()
+
+---
+# Twitter-Data-Analysis
 ## What Is Twitter Data?
 
-![phone with logo](https://insidebusiness.ng/wp-content/uploads/twitter-1.jpg)
+![logo](https://logos-world.net/wp-content/uploads/2020/04/Twitter-Logo-2010-2012.png)
+<!-- ![phone with logo](https://insidebusiness.ng/wp-content/uploads/twitter-1.jpg) -->
 
 Twitter data is the information collected by either the user, the access point, what’s in the post and how users view or use your post. While this might sound somewhat vague, it’s largely due to the massive amount of data that can be collected from a single Tweet.
 
@@ -12,8 +18,10 @@ With this information, you can know demographics, total clicks on your profile o
 
 ## How the data is collected?
 
-Twitter is the Major Source of data for our challenge. We were provided with pre-downloaded data on Economic hardships-related topics. The data comes in two parts. 
+Twitter is the Major Source of data for our challenge. We were provided with pre-downloaded data on Economic hardships-related topics. The data comes in two parts.
+
 *1.* The first will be around 100MB of a raw twitter data dump in JSON format. This data is collected using the following keywords: [‘inflation’, ‘fuelprice’, ‘fuelpricehike’, ‘ fuelprices’, ‘fuelshortage’, ‘foodprice’, ‘oilprice’, ‘oilprices’, ‘cookingoilprice’, ‘unemployment’, ‘unemploymentrate’, ‘economiccrisis’, ‘economichardship’]
+
 *2.* The second one will be around 300MB of the same format, but collected based on the original keyword plus country-specific geocodes included e.g. ‘0.0263,37.9062,530km for Kenya’. 
 
 ## Extracting tweets from Twitter raw JSON file
@@ -45,5 +53,13 @@ Word clouds (also known as text clouds or tag clouds) work in a simple way: the 
 ## Building a dashboard visualization with streamlit
 
 A data visualization dashboard allows digital marketers or researchers to track multiple data sources and visualize the data, ensuring a solid data set for decision-makers.
+**Streamlit Data app:** [Tweet Live Visualization](https://share.streamlit.io/abel-blue/twitter-data-analysis/main/streamlit/app.py)
 
-![logo](https://logos-world.net/wp-content/uploads/2020/04/Twitter-Logo-2010-2012.png)
+---
+
+
+
+Articles: [Linkedin Article](https://www.linkedin.com/pulse/twitter-data-mining-nutshell-abel-mitiku/?trackingId=WGy4deloToe0PC0iE%2BqH4Q%3D%3D), 
+[Medium Article]()
+
+
