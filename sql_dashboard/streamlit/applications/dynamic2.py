@@ -7,13 +7,13 @@ import altair as alt
 from wordcloud import WordCloud
 import plotly.express as px
 
-sys.path.append(os.path.abspath(os.path.join('../sql')))
+sys.path.append(os.path.abspath(os.path.join('/home/abel-ubuntu/workspace/Twitter-Data-Analysis/sql_dashboard/sql')))
 
 from create_table import db_execute_fetch
 
 def loadData():
-    query = "select * from TweetInformation"
-    df = db_execute_fetch(query, dbName="tweets", rdf=True)
+    query = "select * from tweets"
+    df = db_execute_fetch(query, dbName="tweet_db", rdf=True)
     return df
 
 
@@ -27,7 +27,7 @@ def barChart(data, title, X, Y):
 def wordCloud():
     df = loadData()
     cleanText = ''
-    for text in df['clean_text']:
+    for text in df['retweet_text']:
         tokens = str(text).lower().split()
 
         cleanText += " ".join(tokens) + " "
@@ -40,30 +40,30 @@ def wordCloud():
 
 def stBarChart():
     df = loadData()
-    dfCount = pd.DataFrame({'Tweet_count': df.groupby(['original_author'])[
-                           'clean_text'].count()}).reset_index()
-    dfCount["original_author"] = dfCount["original_author"].astype(str)
+    dfCount = pd.DataFrame({'Tweet_count': df.groupby(['screen_name'])[
+                           'retweet_text'].count()}).reset_index()
+    dfCount["screen_name"] = dfCount["screen_name"].astype(str)
     dfCount = dfCount.sort_values("Tweet_count", ascending=False)
 
     numBC = st.slider("Select number of Rankings", 0, 50, 5)
     title = f"Top {numBC} Ranking By Number of tweets"
-    barChart(dfCount.head(numBC), title, "original_author", "Tweet_count")
+    barChart(dfCount.head(numBC), title, "screen_name", "Tweet_count")
 
 
 def langPie():
     df = loadData()
     dfLangCount = pd.DataFrame({'Tweet_count': df.groupby(
-        ['language'])['clean_text'].count()}).reset_index()
-    dfLangCount["language"] = dfLangCount["language"].astype(str)
+        ['lang'])['retweet_text'].count()}).reset_index()
+    dfLangCount["lang"] = dfLangCount["lang"].astype(str)
     dfLangCount = dfLangCount.sort_values("Tweet_count", ascending=False)
     dfLangCount.loc[dfLangCount['Tweet_count']
                     < 10, 'lang'] = 'Other languages'
     st.title(" Tweets Language pie chart")
     fig = px.pie(dfLangCount, values='Tweet_count',
-                 names='language', width=500, height=350)
+                 names='lang', width=500, height=350)
     fig.update_traces(textposition='inside', textinfo='percent+label')
 
-    colB1, colB2 = st.beta_columns([2.5, 1])
+    colB1, colB2 = st.columns([2.5, 1])
 
     with colB1:
         st.plotly_chart(fig)
@@ -78,7 +78,7 @@ def tweetSentiments():
 def app():
     st.title("Data Visualizations")
     wordCloud()
-    with st.beta_expander("Show More Graphs"):
+    with  st.expander("Show More Graphs"):
         stBarChart()
         langPie()
         tweetSentiments()
