@@ -47,7 +47,7 @@ def run_query(query):
         return cur.fetchall()
 
 
-rows = run_query("SELECT * from tweets;")
+run_query("SELECT * from tweets;")
 
 # The main app
 
