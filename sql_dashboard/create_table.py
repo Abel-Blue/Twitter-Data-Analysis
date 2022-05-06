@@ -4,11 +4,12 @@ import mysql.connector as mysql
 from mysql.connector import Error
 import os
 import sys
+import streamlit as st
 
 
 def DBConnect(dbName=None):
-    conn = mysql.connect(host='localhost', user='root', password='abel6464',
-                         database=dbName, buffered=True)
+    conn = mysql.connect(host=st.secrets['mysql']['host'], user=st.secrets['mysql']['user'],
+                         password=st.secrets['mysql']['password'], database=dbName, buffered=True)
     cur = conn.cursor()
     return conn, cur
 

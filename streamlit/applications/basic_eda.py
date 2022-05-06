@@ -9,7 +9,7 @@ def app():
 
     st.title("Twitter Data Analysis Visualization")
 
-    st.header("Data Analysis")
+    st.header("Data Visualization")
     processed_tweets = pd.read_csv(
         'data/cleaned_economic_data.csv')
     model_ready_tweets = pd.read_csv(
@@ -17,9 +17,13 @@ def app():
     model_ready_tweets.retweet_text = model_ready_tweets.retweet_text.astype(
         str)
 
-    st.header("I. From Clean Tweets")
+    st.header("I. From Clean Retweets Tweets")
     st.dataframe(processed_tweets)
     st.bar_chart(processed_tweets.lang.value_counts())
+
+    st.subheader("1. Sources of Tweets")
+    st.bar_chart(processed_tweets.source.value_counts())
+    
     st.subheader("1. Sentiment of Topics")
     st.bar_chart(processed_tweets.sentiment.value_counts())
 
@@ -71,15 +75,3 @@ def app():
 
     st.subheader("8. Most Mentioned")
     st.bar_chart(processed_tweets.user_mentions.value_counts()[:5])
-
-    st.header("II. From Model Ready Tweets")
-    st.dataframe(model_ready_tweets)
-    st.subheader("Most used Words")
-    stopWords = set(stopwords.words('english'))
-    words_list = [word for words_list in model_ready_tweets.retweet_text
-                  for word in words_list.split(' ')]
-
-    words_df = pd.DataFrame(
-        [word for word in words_list if word not in stopWords and word != ""], columns=['words'])
-
-    st.bar_chart(words_df.words.value_counts()[:5])
