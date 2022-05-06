@@ -13,7 +13,9 @@ from create_table import db_execute_fetch
 
 def loadData():
     query = "select * from tweets"
-    df = db_execute_fetch(query, dbName="tweet_db", rdf=True)
+    # df = db_execute_fetch(query, dbName="tweet_db", rdf=True)
+    df = pd.read_csv(
+        'data/cleaned_economic_data.csv')
     return df
 
 
