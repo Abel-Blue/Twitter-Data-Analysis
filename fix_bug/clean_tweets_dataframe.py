@@ -4,8 +4,7 @@ import re
 import sys
 import os
 from nltk.corpus import stopwords
-from wordcloud import WordCloud, STOPWORDS
-import spacy
+
 sys.path.append(os.path.abspath(os.path.join('data')))
 
 
