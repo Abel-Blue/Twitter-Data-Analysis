@@ -5,3 +5,5 @@ test/
 tempCodeRunnerFile.py
 .~lock.cleaned_economic_data.csv#
 .streamlit/secrets.toml
+scripts.egg-info/
+dist/
