@@ -6,13 +6,9 @@ from zipfile import ZipFile
 
 def read_json(json_file: str) -> list:
     tweets_data = []
-    # https://stackoverflow.com/questions/40824807/reading-zipped-json-files
-
     with ZipFile(json_file, 'r') as zip_ref:
         zip_ref.extractall("data/")
 
-    # It says large files detected in github and I can't push any code's
-    # so I hide this unziped json data in .gitignore
     for tweets in open("data/Economic_Twitter_Data.json", 'r'):
         tweets_data.append(json.loads(tweets))
     return len(tweets_data), tweets_data

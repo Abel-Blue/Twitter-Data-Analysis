@@ -82,7 +82,7 @@ class CleanTweets:
     def parse_source(self) -> pd.DataFrame:
         source = []
         for i in self.df['source'].tolist():
-            soup = BeautifulSoup(i)
+            soup = BeautifulSoup(i, features="lxml")
             loop = soup.a.string
             source.append(loop)
         self.df['source'] = source
