@@ -1,11 +1,20 @@
-**Streamlit Data app:** [Tweet Live Visualization](https://share.streamlit.io/abel-blue/twitter-data-analysis/main/streamlit/app.py)
+<h1 align="center">Twitter Data Analysis</h1>
+<div>
+<a href="https://github.com/Abel-Blue/Twitter-Data-Analysis/network/members"><img src="https://img.shields.io/github/forks/Abel-Blue/Twitter-Data-Analysis" alt="Forks Badge"/></a>
+<a href="https://github.com/Abel-Blue/Twitter-Data-Analysis/pulls"><img src="https://img.shields.io/github/issues-pr/Abel-Blue/Twitter-Data-Analysis" alt="Pull Requests Badge"/></a>
+<a href="https://github.com/Abel-Blue/Twitter-Data-Analysis/issues"><img src="https://img.shields.io/github/issues/Abel-Blue/Twitter-Data-Analysis" alt="Issues Badge"/></a>
+<a href="https://github.com/Abel-Blue/agriTech-USGS-LiDAR/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/Abel-Blue/Twitter-Data-Analysis?color=2b9348"></a>
+<a href="https://github.com/Abel-Blue/Twitter-Data-Analysis/blob/main/LICENSE"><img src="https://img.shields.io/github/license/Abel-Blue/Twitter-Data-Analysis?color=2b9348" alt="License Badge"/></a>
+</div>
+
+</br>
+
+<!-- **Streamlit Data app:** [Tweet Live Visualization](https://share.streamlit.io/abel-blue/twitter-data-analysis/main/streamlit/app.py) -->
 
 Articles: [Linkedin Article](https://www.linkedin.com/pulse/twitter-data-mining-nutshell-abel-mitiku/?trackingId=WGy4deloToe0PC0iE%2BqH4Q%3D%3D), 
 [Medium Article](https://medium.com/@Abel-Blue/twitter-data-mining-in-a-nutshell-452e5e7a697d)
 
 ---
-
-# Twitter-Data-Analysis
 
 <!-- ![logo](https://logos-world.net/wp-content/uploads/2020/04/Twitter-Logo-2010-2012.png) -->
 <!-- ![phone with logo](https://insidebusiness.ng/wp-content/uploads/twitter-1.jpg) -->
@@ -29,48 +38,87 @@ Twitter is the Major Source of data for our challenge. We were provided with pre
 
 To load the data from JSON format we need to install the required libraries. We will have to load the Twitter data into a pandas data frame using different types of python functions like **find_status_count()**, **find_hashtags()**, and **find_retweeted_text()**. Using this many functions, we need to append every tweet into a list and at the end, we will get the extracted data in the form of a CSV file.
 
-## Data preparation and cleaning
+<hr>
 
-When working with multiple data sources, there are many chances for data to be incorrect, duplicated, or mislabeled. If data is wrong, outcomes and algorithms are unreliable, even though they may look correct. Data cleaning is the process of changing or eliminating garbage, incorrect, duplicate, corrupted, or incomplete data in a dataset.
+## Table of Contents
 
-In this project, we managed to clean any duplicate or incomplete or convert polarity and subjectivity into numeric values or remove non-English tweets from the data set that we extracted in the data extraction phase. Below is a snapshot of the end result.
+- [Introduction](##Introduction)
+- [Project Structure](#project-structure)
+  - [data](#data)
+  - [notebooks](#notebooks)
+  - [scripts](#scripts)
+  - [tests](#tests)
+  - [models](#models)
+  - [root folder](#root-folder)
+- [Installation guide](#installation-guide)
 
-![data clean](images/cleaned.png)
+<hr>
 
-Using this processed and clean tweet we determined to write a function of a score map of their sentiments by categorizing them using 'positive', 'negative', or 'neutral' marks and visualizing the 𝐬𝐜𝐨𝐫𝐞 column using a piechart and bar chart.
+<!-- <img src="images/slide/3.png" name="">
+<img src="images/slide/4.png" name=""> -->
 
-![charts](images/piechart.png)
-![charts](images/bargraph.png)
+## Project Structure
 
-## Exploratory Data Analysis (EDA)
+### [images](images):
 
-In data mining, Exploratory Data Analysis (EDA) is an approach to analyzing datasets to summarize their main characteristics, often with visual methods. EDA is used for seeing what the data can tell us before the modeling task.
+- `images/` the folder where all snapshot for the project are stored.
 
-![eda code](images/eda.png)
+### [models](models):
 
-## Sentiment Analysis
+- `models/` the folder where script logs are stored.
 
-Sentiment analysis can be defined as a process that automates the mining of attitudes, opinions, views, and emotions from text, speech, tweets, and database sources through Natural Language Processing (NLP). Sentiment analysis involves classifying opinions in text into categories like "positive", "negative" or "neutral".
-In this project, we were looking for the hardship that is caused by financial or economical issues.
+### [data](data):
 
-![sentiment](images/sentiment.png)
+- `data/` the folder where the dataset files are stored.
 
-## Topic Modeling and Topic Classification
+### [.github](.github):
 
-Topic modeling is an unsupervised machine learning technique that’s capable of scanning a set of documents, detecting word and phrase patterns within them, and automatically clustering word groups and similar expressions that best characterize a set of documents. e.g. word cloud
-Word clouds (also known as text clouds or tag clouds) work in a simple way: the more a specific word appears in a source of textual data (such as a speech, blog post, or database), the bigger and bolder it appears in the word cloud.
+- `.github/`: the folder where github actions and unit-tests are integrated.
 
-![wordcloud](images/wordcloud.png)
+### [.vscode](.vscode):
 
-## Building a dashboard visualization with streamlit
+- `.vscode/`: the folder where local path are stored.
 
-A data visualization dashboard allows digital marketers or researchers to track multiple data sources and visualize the data, ensuring a solid data set for decision-makers.
-**Streamlit Data app:** [Tweet Live Visualization](https://share.streamlit.io/abel-blue/twitter-data-analysis/main/streamlit/app.py)
+### [notebooks](notebooks):
 
-![dashboard1](images/dashboard1.png)
-![dashboard2](images/dashboard2.png)
+- `notebooks`: a jupyter notebook for preprocessing the data.
 
----
+### [scripts](scripts):
 
-Articles: [Linkedin Article](https://www.linkedin.com/pulse/twitter-data-mining-nutshell-abel-mitiku/?trackingId=WGy4deloToe0PC0iE%2BqH4Q%3D%3D), 
-[Medium Article](https://medium.com/@Abel-Blue/twitter-data-mining-in-a-nutshell-452e5e7a697d)
+- `scripts/`: folder where modules are stored.
+
+### [tests](tests):
+
+- `tests/`: the folder containing unit tests for the scripts.
+
+### root folder
+
+- `requirements.txt`: a text file lsiting the projet's dependancies.
+- `.travis.yml`: a configuration file for Travis CI for unit test.
+- `setup.py`: a configuration file for installing the scripts as a package.
+- `README.md`: Markdown text with a brief explanation of the project and the repository structure.
+
+<hr>
+
+# <a name='Installation guide'></a>Installation guide
+
+### <a name='conda'></a>Conda Enviroment
+
+```bash
+conda create --name mlenv python==3.8
+conda activate mlenv
+```
+
+then
+
+```bash
+git clone https://github.com/Abel-Blue/Twitter-Data-Analysis.git
+cd Twitter-Data-Analysis
+sudo python3 setup.py install
+```
+
+<hr>
+
+# <a name='license'></a>License
+
+[License](https://github.com/Abel-Blue/Twitter-Data-Analysis/blob/main/LICENSE)
